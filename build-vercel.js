@@ -31,55 +31,81 @@ function rmDir(dir) {
   fs.rmdirSync(dir);
 }
 
-function rmFile(file) {
-  if (fs.existsSync(file)) fs.unlinkSync(file);
-}
-
-console.log('Building for Vercel (in-place)...');
-
-rmFile('server.py');
-rmFile('requirements.txt');
+console.log('Building for Vercel...');
 
 if (fs.existsSync('api')) {
   fs.renameSync('api', 'apic');
 }
 
-const replacements = [
+replaceInDir('.', [
   ["from '../api/", "from '../apic/"],
   ['from "../api/', 'from "../apic/'],
   ["from './api/", "from './apic/"],
   ['from "./api/', 'from "./apic/'],
-];
-replaceInDir('.', replacements, ['.js', '.html', '.mjs']);
+], ['.js', '.html', '.mjs']);
 
-fs.mkdirSync('api', { recursive: true });
 fs.mkdirSync('api/v2/proxy', { recursive: true });
 
-function copyDir(src, dest) {
-  if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
-  for (const entry of fs.readdirSync(src)) {
-    const srcPath = path.join(src, entry);
-    const destPath = path.join(dest, entry);
-    const stat = fs.statSync(srcPath);
-    if (stat.isDirectory()) {
-      copyDir(srcPath, destPath);
-    } else {
-      fs.copyFileSync(srcPath, destPath);
-    }
-  }
+fs.writeFileSync('api/index.js', `export default function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  if (req.method === 'OPTIONS') return res.status(204).end();
+  res.status(200).json({ status: 'ok', name: 'AI Tiger', version: 'V0.1.0' });
 }
+`);
 
-if (fs.existsSync('vercel-api')) {
-  copyDir('vercel-api', 'api');
+fs.writeFileSync('api/v2/proxy/completions.js', `const P = {
+  apimart: { e: 'APIMART_API_KEY', u: 'https://api.apimart.ai/v1/chat/completions' },
+  grsai: { e: 'GRSAI_API_KEY', u: 'https://api.grsai.com/v1/chat/completions' },
+  ppio: { e: 'PPIO_API_KEY', u: 'https://api.ppio.com/v1/chat/completions' },
+  geeknow: { e: 'GEEKNOW_API_KEY', u: 'https://www.geeknow.top/v1/chat/completions' }
+};
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  if (req.method === 'OPTIONS') return res.status(204).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  try {
+    const { provider, apiKey, apiUrl, model, messages } = req.body;
+    let key = apiKey || '', url = apiUrl || '';
+    if (!key && P[provider]) { key = process.env[P[provider].e] || ''; if (!url) url = P[provider].u; }
+    if (provider === 'openai') { key = key || process.env.CUSTOM_AI_KEY || ''; url = url || process.env.CUSTOM_AI_URL || 'https://api.openai.com/v1/chat/completions'; }
+    if (!key) return res.status(401).json({ error: 'API key not configured' });
+    if (!url) return res.status(400).json({ error: 'API URL not configured' });
+    const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key }, body: JSON.stringify({ model, messages, stream: false }) });
+    res.status(r.status).setHeader('Content-Type', 'application/json').send(await r.text());
+  } catch (e) { res.status(500).json({ error: e.message }); }
 }
+`);
+
+fs.writeFileSync('api/v2/proxy/image.js', `const E = { ppio: 'PPIO_API_KEY', apimart: 'APIMART_API_KEY', grsai: 'GRSAI_API_KEY', geeknow: 'GEEKNOW_API_KEY' };
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  if (req.method === 'OPTIONS') return res.status(204).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  try {
+    const { apiUrl, apiKey, provider, body } = req.body;
+    let key = apiKey || (provider && E[provider] ? process.env[E[provider]] : '') || '';
+    if (!key || !apiUrl) return res.status(401).json({ error: 'API key or URL not configured' });
+    const r = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key }, body: JSON.stringify(body || {}) });
+    res.status(r.status).setHeader('Content-Type', 'application/json').send(await r.text());
+  } catch (e) { res.status(500).json({ error: e.message }); }
+}
+`);
+
+fs.writeFileSync('api/v2/proxy/video.js', `const E = { ppio: 'PPIO_API_KEY', geeknow: 'GEEKNOW_API_KEY' };
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  if (req.method === 'OPTIONS') return res.status(204).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  try {
+    const { apiUrl, apiKey, provider, body } = req.body;
+    let key = apiKey || (provider && E[provider] ? process.env[E[provider]] : '') || '';
+    if (!key || !apiUrl) return res.status(401).json({ error: 'API key or URL not configured' });
+    const r = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key }, body: JSON.stringify(body || {}) });
+    res.status(r.status).setHeader('Content-Type', 'application/json').send(await r.text());
+  } catch (e) { res.status(500).json({ error: e.message }); }
+}
+`);
 
 rmDir('vercel-api');
-rmDir('models');
-rmDir('tools');
-rmFile('Dockerfile');
-rmFile('.dockerignore');
-rmFile('railway.json');
-rmFile('render.yaml');
-rmFile('build-vercel.js');
 
 console.log('Vercel build complete!');
