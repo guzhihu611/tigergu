@@ -2,10 +2,5 @@
   "buildCommand": "node build-vercel.js",
   "outputDirectory": "dist",
   "installCommand": "echo skip",
-  "framework": null,
-  "functions": {
-    "api/**/*.py": {
-      "runtime": "@vercel/python"
-    }
-  }
+  "framework": null
 }
