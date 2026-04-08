@@ -1,5 +1,3 @@
 {
-  "buildCommand": "node build-vercel.js",
-  "installCommand": "echo skip",
   "framework": null
 }

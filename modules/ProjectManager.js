@@ -1,7 +1,7 @@
 import { generateId } from '../src/core/math.js';
 import * as projectModule from './project.js';
 import TigerTabManager from './TigerTabManager.js';
-import { getProjects, createProject, deleteProject } from '../api/index.js';
+import { getProjects, createProject, deleteProject } from '../apic/index.js';
 import { clearRendererCache } from '../src/core/renderer.js';
 import { commit } from './history.js';
 
