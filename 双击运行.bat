@@ -61,7 +61,7 @@ timeout /t 1 /nobreak >nul
 
 :: Start the Python script in the same window
 echo Starting server...
-start "AI Canvas Server" cmd /c "venv\python.exe server.py"
+start "AI Tiger Server" cmd /c "venv\python.exe server.py"
 
 :: Give the server a moment to boot up, then open browser
 timeout /t 2 /nobreak >nul

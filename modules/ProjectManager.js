@@ -1,1 +1,450 @@
-const a86_0x4e2b42=a86_0x4e35;(function(_0x393cbf,_0x2b9f05){const _0x5a19d2=a86_0x4e35,_0x41f2c0=_0x393cbf();while(!![]){try{const _0x264f90=parseInt(_0x5a19d2(0x133))/0x1+-parseInt(_0x5a19d2(0x175))/0x2+-parseInt(_0x5a19d2(0x144))/0x3*(parseInt(_0x5a19d2(0x128))/0x4)+-parseInt(_0x5a19d2(0x10c))/0x5*(parseInt(_0x5a19d2(0x12f))/0x6)+parseInt(_0x5a19d2(0x148))/0x7+-parseInt(_0x5a19d2(0xf6))/0x8*(-parseInt(_0x5a19d2(0xfb))/0x9)+parseInt(_0x5a19d2(0x108))/0xa;if(_0x264f90===_0x2b9f05)break;else _0x41f2c0['push'](_0x41f2c0['shift']());}catch(_0x5978ef){_0x41f2c0['push'](_0x41f2c0['shift']());}}}(a86_0x515b,0x1df45));import{generateId}from'../src/core/math.js';import*as a86_0x24f24c from'./project.js';function a86_0x4e35(_0x1fad07,_0x544321){_0x1fad07=_0x1fad07-0xe5;const _0x515b50=a86_0x515b();let _0x4e350e=_0x515b50[_0x1fad07];return _0x4e350e;}import{getProjects as a86_0x162a29,createProject as a86_0x1a2aeb,deleteProject as a86_0x4907bf}from'../api/index.js';import{clearRendererCache}from'../src/core/renderer.js';import{commit}from'./history.js';const projectGallery=document['getElementById'](a86_0x4e2b42(0xee)),projectGrid=document['getElementById'](a86_0x4e2b42(0x14a)),ProjectManager={async 'getProjects'(){return await a86_0x162a29();},async 'createProject'(_0x1b4754){const _0x3fdc59=a86_0x4e2b42;if(!_0x1b4754){const _0x4f7680=new Date();_0x1b4754='画板\x20'+_0x4f7680[_0x3fdc59(0x10d)]();}const _0x35cd57=generateId(_0x3fdc59(0x100));return await a86_0x1a2aeb(_0x35cd57,_0x1b4754);},async 'loadProject'(_0x126190){const _0x5718bb=a86_0x4e2b42;try{clearRendererCache();const _0x2f99f9=await a86_0x24f24c[_0x5718bb(0xfe)](_0x126190);window['currentProjectId']=_0x126190;if(projectGallery)projectGallery[_0x5718bb(0x158)][_0x5718bb(0x140)](_0x5718bb(0x11c));document[_0x5718bb(0x174)][_0x5718bb(0x158)][_0x5718bb(0x14f)](_0x5718bb(0x157)),localStorage[_0x5718bb(0xf4)](_0x5718bb(0x134),_0x126190);window[_0x5718bb(0xf5)]&&window['CanvasTabManager']['init'](_0x2f99f9);const _0x251924=document[_0x5718bb(0xf8)]('projectNameText');if(_0x251924){let _0x5e9cee=_0x5718bb(0x139);const _0x449928=await this[_0x5718bb(0x154)](),_0x3559d9=_0x449928[_0x5718bb(0x165)](_0xb0c6e6=>_0xb0c6e6['id']===_0x126190);if(_0x3559d9)_0x5e9cee=_0x3559d9[_0x5718bb(0x163)];_0x251924[_0x5718bb(0x171)]=_0x5e9cee;}}catch(_0x3ee2f7){console[_0x5718bb(0x12c)](_0x5718bb(0x12d),_0x3ee2f7),alert(_0x5718bb(0x15d));}},async 'saveCurrentProject'(){const _0x1d0557=a86_0x4e2b42;if(!window[_0x1d0557(0xe5)])return;if(window['CanvasTabManager']){window['CanvasTabManager'][_0x1d0557(0x16b)]();const _0x4c2f86=window[_0x1d0557(0xf5)]['getMultiData']();await a86_0x24f24c[_0x1d0557(0x11d)](window['currentProjectId'],_0x4c2f86);}},'showConfirm'(_0x453e78,_0x138dcf,_0x2b3e29){const _0xb43f7=a86_0x4e2b42,_0x354b19=document[_0xb43f7(0x123)](_0xb43f7(0x10e));_0x354b19[_0xb43f7(0x156)]=_0xb43f7(0xfc);const _0x5f0537=document[_0xb43f7(0x123)](_0xb43f7(0x10e));_0x5f0537[_0xb43f7(0x156)]=_0xb43f7(0x11a),Object[_0xb43f7(0x142)](_0x5f0537[_0xb43f7(0xed)],{'background':_0xb43f7(0x16f),'color':_0xb43f7(0xeb),'padding':_0xb43f7(0x105),'borderRadius':_0xb43f7(0x116),'position':_0xb43f7(0xef),'top':'50%','left':_0xb43f7(0x16a),'transform':'translate(-50%,\x20-50%)','zIndex':_0xb43f7(0x164),'border':_0xb43f7(0x14b)});const _0x51e286=document[_0xb43f7(0x123)](_0xb43f7(0x10e));_0x51e286[_0xb43f7(0x156)]='confirm-title',Object['assign'](_0x51e286[_0xb43f7(0xed)],{'fontSize':'18px','fontWeight':_0xb43f7(0x12a),'marginBottom':_0xb43f7(0x153)}),_0x51e286[_0xb43f7(0x171)]=_0x453e78;const _0x2458ae=document[_0xb43f7(0x123)](_0xb43f7(0x10e));_0x2458ae['className']=_0xb43f7(0x113),Object[_0xb43f7(0x142)](_0x2458ae[_0xb43f7(0xed)],{'marginBottom':_0xb43f7(0x105),'color':_0xb43f7(0x155)}),_0x2458ae[_0xb43f7(0x171)]=_0x138dcf;const _0x400b27=document[_0xb43f7(0x123)](_0xb43f7(0x10e));_0x400b27['className']=_0xb43f7(0x135),Object[_0xb43f7(0x142)](_0x400b27[_0xb43f7(0xed)],{'display':'flex','justifyContent':'flex-end','gap':_0xb43f7(0x153)});const _0x2863f4=document[_0xb43f7(0x123)](_0xb43f7(0xec));_0x2863f4[_0xb43f7(0x169)]=_0xb43f7(0xec),_0x2863f4['className']=_0xb43f7(0x119),Object[_0xb43f7(0x142)](_0x2863f4[_0xb43f7(0xed)],{'padding':_0xb43f7(0x107),'borderRadius':_0xb43f7(0x161),'border':_0xb43f7(0x143),'background':_0xb43f7(0x138),'color':'white','cursor':_0xb43f7(0x14d)}),_0x2863f4[_0xb43f7(0x171)]='取消';const _0x971caa=document[_0xb43f7(0x123)]('button');_0x971caa[_0xb43f7(0x169)]=_0xb43f7(0xec),_0x971caa[_0xb43f7(0x156)]=_0xb43f7(0x15a),Object[_0xb43f7(0x142)](_0x971caa['style'],{'padding':_0xb43f7(0x107),'borderRadius':_0xb43f7(0x161),'border':_0xb43f7(0x143),'background':_0xb43f7(0x11b),'color':_0xb43f7(0xeb),'cursor':_0xb43f7(0x14d)}),_0x971caa[_0xb43f7(0x171)]='确认删除',_0x400b27['appendChild'](_0x2863f4),_0x400b27[_0xb43f7(0x152)](_0x971caa),_0x5f0537['appendChild'](_0x51e286),_0x5f0537['appendChild'](_0x2458ae),_0x5f0537[_0xb43f7(0x152)](_0x400b27),_0x354b19[_0xb43f7(0x152)](_0x5f0537),document[_0xb43f7(0x174)][_0xb43f7(0x152)](_0x354b19);const _0x46284d=()=>_0x354b19[_0xb43f7(0x14f)]();_0x2863f4[_0xb43f7(0x103)]=_0x46284d,_0x971caa[_0xb43f7(0x103)]=()=>{_0x2b3e29(),_0x46284d();},_0x354b19[_0xb43f7(0x103)]=_0x4836f7=>{const _0x49dbc4=_0xb43f7;if(_0x4836f7[_0x49dbc4(0xea)]===_0x354b19)_0x46284d();};},async 'deleteProject'(_0x26168e){const _0x89eeb9=a86_0x4e2b42;this['showConfirm'](_0x89eeb9(0x15e),_0x89eeb9(0xf1),async()=>{const _0x289d0c=_0x89eeb9;try{await a86_0x4907bf(_0x26168e),window[_0x289d0c(0xe5)]===_0x26168e?this[_0x289d0c(0x145)]():this[_0x289d0c(0x102)]();}catch(_0x20fe64){console['error'](_0x289d0c(0x141),_0x20fe64);}});},'showGallery'(){const _0x5b6f7a=a86_0x4e2b42;window[_0x5b6f7a(0xe5)]=null;if(projectGallery)projectGallery['classList'][_0x5b6f7a(0x14f)](_0x5b6f7a(0x11c));document['body'][_0x5b6f7a(0x158)][_0x5b6f7a(0x140)]('in-gallery'),this[_0x5b6f7a(0x102)]();},async 'renderGallery'(){const _0x4f85de=a86_0x4e2b42;if(!projectGrid)return;const _0x4bf63a=await this['getProjects']();projectGrid[_0x4f85de(0x146)]();const _0x3ac682=document[_0x4f85de(0x123)]('div');_0x3ac682[_0x4f85de(0x156)]=_0x4f85de(0x173);const _0x3d63e2=_0x4f85de(0x136),_0x45300f=document[_0x4f85de(0x123)](_0x4f85de(0x10e));_0x45300f[_0x4f85de(0x156)]='pc-preview\x20new-project-preview',Object[_0x4f85de(0x142)](_0x45300f[_0x4f85de(0xed)],{'background':'var(--white-02)','display':_0x4f85de(0x12b),'alignItems':'center','justifyContent':_0x4f85de(0x121)});const _0x3842fd=document[_0x4f85de(0x11e)](_0x3d63e2,'svg');_0x3842fd[_0x4f85de(0x110)](_0x4f85de(0x104),'32'),_0x3842fd[_0x4f85de(0x110)](_0x4f85de(0xf0),'32'),_0x3842fd[_0x4f85de(0x110)]('viewBox',_0x4f85de(0x12e)),_0x3842fd[_0x4f85de(0x110)](_0x4f85de(0x130),_0x4f85de(0x143)),_0x3842fd[_0x4f85de(0x110)](_0x4f85de(0x115),'currentColor'),_0x3842fd[_0x4f85de(0x110)](_0x4f85de(0xf7),_0x4f85de(0x122)),_0x3842fd[_0x4f85de(0xed)][_0x4f85de(0x114)]=_0x4f85de(0x126);const _0x303459=document[_0x4f85de(0x11e)](_0x3d63e2,_0x4f85de(0x112));_0x303459[_0x4f85de(0x110)]('x1','12'),_0x303459[_0x4f85de(0x110)]('y1','5'),_0x303459[_0x4f85de(0x110)]('x2','12'),_0x303459[_0x4f85de(0x110)]('y2','19');const _0xdf32f4=document[_0x4f85de(0x11e)](_0x3d63e2,_0x4f85de(0x112));_0xdf32f4[_0x4f85de(0x110)]('x1','5'),_0xdf32f4[_0x4f85de(0x110)]('y1','12'),_0xdf32f4[_0x4f85de(0x110)]('x2','19'),_0xdf32f4[_0x4f85de(0x110)]('y2','12'),_0x3842fd[_0x4f85de(0x152)](_0x303459),_0x3842fd[_0x4f85de(0x152)](_0xdf32f4),_0x45300f['appendChild'](_0x3842fd);const _0x301bf6=document['createElement'](_0x4f85de(0x10e));_0x301bf6['className']=_0x4f85de(0x131),Object[_0x4f85de(0x142)](_0x301bf6[_0x4f85de(0xed)],{'display':_0x4f85de(0x12b),'flexDirection':'column','justifyContent':_0x4f85de(0x121),'alignItems':_0x4f85de(0x121),'height':_0x4f85de(0xe8),'padding':_0x4f85de(0x120)});const _0x26a7bf=document[_0x4f85de(0x123)](_0x4f85de(0x10e));_0x26a7bf['className']=_0x4f85de(0x15b),Object[_0x4f85de(0x142)](_0x26a7bf[_0x4f85de(0xed)],{'color':_0x4f85de(0x11f),'fontSize':_0x4f85de(0x13b),'fontWeight':_0x4f85de(0xe7),'textAlign':_0x4f85de(0x121),'margin':'0'}),_0x26a7bf[_0x4f85de(0x171)]=_0x4f85de(0x15f),_0x301bf6[_0x4f85de(0x152)](_0x26a7bf),_0x3ac682[_0x4f85de(0x152)](_0x45300f),_0x3ac682['appendChild'](_0x301bf6);const _0x4e5502=document['createElement']('style');_0x4e5502['textContent']='@keyframes\x20spin\x20{\x20100%\x20{\x20transform:\x20rotate(360deg);\x20}\x20}\x20.spin\x20{\x20animation:\x20spin\x201s\x20linear\x20infinite;\x20}',document[_0x4f85de(0x16e)][_0x4f85de(0x152)](_0x4e5502),window[_0x4f85de(0x111)]=function(_0x3d9707=_0x4f85de(0x168)){const _0x313812=_0x4f85de;let _0x41ec32=document[_0x313812(0xf8)](_0x313812(0x150));if(!_0x41ec32){_0x41ec32=document[_0x313812(0x123)]('div'),_0x41ec32['id']=_0x313812(0x150),Object['assign'](_0x41ec32[_0x313812(0xed)],{'position':_0x313812(0xef),'bottom':'80px','left':_0x313812(0x16a),'transform':'translateX(-50%)','background':_0x313812(0xfa),'color':_0x313812(0x13d),'padding':_0x313812(0x166),'borderRadius':'30px','fontSize':'14px','zIndex':_0x313812(0x127),'border':'1px\x20solid\x20var(--white-10)','display':_0x313812(0x12b),'alignItems':'center','gap':_0x313812(0x153),'boxShadow':_0x313812(0x177),'opacity':'0','transition':'opacity\x200.2s','pointerEvents':_0x313812(0x143)});const _0x346fc2=document[_0x313812(0x11e)](_0x3d63e2,_0x313812(0x118));_0x346fc2[_0x313812(0x110)](_0x313812(0x104),'18'),_0x346fc2[_0x313812(0x110)](_0x313812(0xf0),'18'),_0x346fc2['setAttribute']('viewBox',_0x313812(0x12e)),_0x346fc2[_0x313812(0x110)](_0x313812(0x130),_0x313812(0x143)),_0x346fc2[_0x313812(0x110)]('stroke',_0x313812(0xe9)),_0x346fc2[_0x313812(0x110)](_0x313812(0xf7),'2'),_0x346fc2[_0x313812(0x158)][_0x313812(0x140)](_0x313812(0xe6));const _0x531a32=document['createElementNS'](_0x3d63e2,_0x313812(0x137));_0x531a32[_0x313812(0x110)]('d',_0x313812(0xff)),_0x346fc2[_0x313812(0x152)](_0x531a32);const _0x5c3636=document[_0x313812(0x123)](_0x313812(0x124));_0x41ec32[_0x313812(0x152)](_0x346fc2),_0x41ec32['appendChild'](_0x5c3636),document[_0x313812(0x174)][_0x313812(0x152)](_0x41ec32);}_0x41ec32[_0x313812(0x10f)](_0x313812(0x124))['textContent']=_0x3d9707,void _0x41ec32['offsetWidth'],_0x41ec32[_0x313812(0xed)][_0x313812(0x114)]='1';},window[_0x4f85de(0x13a)]=function(){const _0x50b10d=_0x4f85de,_0x3a06f3=document[_0x50b10d(0xf8)](_0x50b10d(0x150));_0x3a06f3&&(_0x3a06f3['style'][_0x50b10d(0x114)]='0',setTimeout(()=>_0x3a06f3[_0x50b10d(0x14f)](),0xfa));},_0x3ac682[_0x4f85de(0x103)]=async()=>{const _0x327807=_0x4f85de,_0x4046ef=await this['createProject']();if(_0x4046ef){if(window[_0x327807(0x106)])window['store'][_0x327807(0x129)]({});await this[_0x327807(0xfe)](_0x4046ef),commit();}},projectGrid[_0x4f85de(0x152)](_0x3ac682),_0x4bf63a[_0x4f85de(0x101)]((_0x598d83,_0x35c70d)=>_0x35c70d[_0x4f85de(0x13c)]-_0x598d83[_0x4f85de(0x13c)])[_0x4f85de(0xf2)](_0x2cb554=>{const _0x5b2b85=_0x4f85de,_0x424b56=document[_0x5b2b85(0x123)](_0x5b2b85(0x10e));_0x424b56[_0x5b2b85(0x156)]=_0x5b2b85(0x176);const _0xd0444f=new Date(_0x2cb554['lastModified'])['toLocaleString'](_0x5b2b85(0xf3),{'month':_0x5b2b85(0x125),'day':_0x5b2b85(0x125),'hour':_0x5b2b85(0x170),'minute':_0x5b2b85(0x170)}),_0x5a9d7f=document[_0x5b2b85(0x123)]('div');_0x5a9d7f['className']=_0x5b2b85(0x109);if(_0x2cb554['thumbnail']&&_0x2cb554[_0x5b2b85(0x10a)][_0x5b2b85(0x169)]===_0x5b2b85(0xfd)&&_0x2cb554[_0x5b2b85(0x10a)][_0x5b2b85(0x13e)]){const _0x30f14e=document[_0x5b2b85(0x123)](_0x5b2b85(0x14c));_0x30f14e[_0x5b2b85(0x159)]=_0x2cb554[_0x5b2b85(0x10a)][_0x5b2b85(0x13e)],_0x5a9d7f['appendChild'](_0x30f14e);}else{if(_0x2cb554[_0x5b2b85(0x10a)]&&_0x2cb554[_0x5b2b85(0x10a)][_0x5b2b85(0x169)]===_0x5b2b85(0x172)&&_0x2cb554[_0x5b2b85(0x10a)][_0x5b2b85(0x13e)]){const _0x2b814a=document[_0x5b2b85(0x123)](_0x5b2b85(0x10e));_0x2b814a[_0x5b2b85(0x156)]=_0x5b2b85(0x16d),_0x2b814a['textContent']=_0x2cb554[_0x5b2b85(0x10a)][_0x5b2b85(0x13e)],_0x5a9d7f['appendChild'](_0x2b814a);}else{const _0x2b3c3a=document[_0x5b2b85(0x123)](_0x5b2b85(0x10e));_0x2b3c3a[_0x5b2b85(0x156)]=_0x5b2b85(0x162),Object[_0x5b2b85(0x142)](_0x2b3c3a['style'],{'fontWeight':_0x5b2b85(0x12a),'color':_0x5b2b85(0x138),'fontSize':'20px','display':'flex','alignItems':'center','justifyContent':_0x5b2b85(0x121),'height':_0x5b2b85(0xe8)}),_0x2b3c3a[_0x5b2b85(0x171)]=_0x5b2b85(0x10b),_0x5a9d7f['appendChild'](_0x2b3c3a);}}const _0x4dad0c=document['createElement']('div');_0x4dad0c['className']='pc-info';const _0x4e3250=document[_0x5b2b85(0x123)](_0x5b2b85(0x10e));_0x4e3250[_0x5b2b85(0x156)]=_0x5b2b85(0x15b),_0x4e3250[_0x5b2b85(0x171)]=_0x2cb554['name'];const _0x42712d=document['createElement'](_0x5b2b85(0x10e));_0x42712d[_0x5b2b85(0x156)]=_0x5b2b85(0x151);const _0x5e2973=document['createElement'](_0x5b2b85(0x124));_0x5e2973['className']=_0x5b2b85(0x117),_0x5e2973[_0x5b2b85(0x171)]=_0xd0444f;const _0x3c7ee1=document[_0x5b2b85(0x123)](_0x5b2b85(0x124));_0x3c7ee1[_0x5b2b85(0x156)]=_0x5b2b85(0x160),_0x3c7ee1[_0x5b2b85(0x147)]['id']=_0x2cb554['id'],Object[_0x5b2b85(0x142)](_0x3c7ee1['style'],{'color':_0x5b2b85(0x14e),'cursor':_0x5b2b85(0x14d),'transition':'color\x200.2s'}),_0x3c7ee1[_0x5b2b85(0x171)]='删除',_0x3c7ee1[_0x5b2b85(0x16c)](_0x5b2b85(0x13f),()=>_0x3c7ee1[_0x5b2b85(0xed)][_0x5b2b85(0x178)]=_0x5b2b85(0x11b)),_0x3c7ee1[_0x5b2b85(0x16c)](_0x5b2b85(0x149),()=>_0x3c7ee1[_0x5b2b85(0xed)][_0x5b2b85(0x178)]=_0x5b2b85(0x14e)),_0x42712d[_0x5b2b85(0x152)](_0x5e2973),_0x42712d[_0x5b2b85(0x152)](_0x3c7ee1),_0x4dad0c[_0x5b2b85(0x152)](_0x4e3250),_0x4dad0c[_0x5b2b85(0x152)](_0x42712d),_0x424b56[_0x5b2b85(0x152)](_0x5a9d7f),_0x424b56[_0x5b2b85(0x152)](_0x4dad0c),_0x424b56[_0x5b2b85(0x103)]=async _0x13f233=>{const _0x1bdc90=_0x5b2b85,_0x2e5c5f=_0x13f233[_0x1bdc90(0xea)][_0x1bdc90(0xf9)](_0x1bdc90(0x15c));if(_0x2e5c5f){_0x13f233[_0x1bdc90(0x132)](),await this[_0x1bdc90(0x167)](_0x2cb554['id']);return;}await this['loadProject'](_0x2cb554['id']);},projectGrid['appendChild'](_0x424b56);});}};export default ProjectManager;export{ProjectManager};function a86_0x515b(){const _0x1812f8=['mouseenter','add','Failed\x20to\x20delete\x20project:','assign','none','3SSaYEm','showGallery','replaceChildren','dataset','1241450PwLsST','mouseleave','projectGrid','1px\x20solid\x20var(--white-10)','img','pointer','var(--text-muted)','remove','v2-global-loading','pc-meta','appendChild','10px','getProjects','var(--white-70)','className','in-gallery','classList','src','confirm-btn\x20confirm-ok','pc-title','.pc-delete','读取项目失败','确认删除','新建项目','pc-delete','6px','pc-logo','name','9999','find','10px\x2024px','deleteProject','加载中...','type','50%','_flushCurrentCanvas','addEventListener','pc-text-snippet','head','var(--bg)','2-digit','textContent','text','project-card\x20new-project-card','body','192730GTDHlK','project-card','0\x208px\x2032px\x20var(--black-50)','color','currentProjectId','spin','600','100%','currentColor','target','white','button','style','projectGallery','fixed','height','删除后项目将无法恢复，确定要继续吗？','forEach','zh-CN','setItem','CanvasTabManager','104DkUlqE','stroke-width','getElementById','closest','var(--surface-quote)','61713BvURzZ','custom-confirm-overlay','image','loadProject','M21\x2012a9\x209\x200\x201\x201-6.219-8.56','proj','sort','renderGallery','onclick','width','20px','store','6px\x2012px','1384850HNLfCH','pc-preview','thumbnail','AICanvas','137755UUVMkY','toLocaleString','div','querySelector','setAttribute','showGlobalLoading','line','confirm-msg','opacity','stroke','12px','pc-time','svg','confirm-btn\x20confirm-cancel','custom-confirm-box','var(--red)','hidden','saveProject','createElementNS','var(--text-primary)','16px\x200','center','1.5','createElement','span','numeric','0.4','99999','629872SJxabG','hydrate','bold','flex','error','Failed\x20to\x20load\x20project:','0\x200\x2024\x2024','42TmrjoZ','fill','pc-info','stopPropagation','164407GSejcV','tapnow_last_project_v2','confirm-btns','http://www.w3.org/2000/svg','path','var(--white-10)','新项目','hideGlobalLoading','16px','lastModified','var(--white)','data'];a86_0x515b=function(){return _0x1812f8;};return a86_0x515b();}
+import { generateId } from '../src/core/math.js';
+import * as projectModule from './project.js';
+import TigerTabManager from './TigerTabManager.js';
+import { getProjects, createProject, deleteProject } from '../api/index.js';
+import { clearRendererCache } from '../src/core/renderer.js';
+import { commit } from './history.js';
+
+window.TigerTabManager = TigerTabManager;
+
+const projectGallery = document.getElementById('projectGallery');
+const projectGrid = document.getElementById('projectGrid');
+
+const ProjectManager = {
+  async getProjects() {
+    return await getProjects();
+  },
+
+  async createProject(name) {
+    if (!name) {
+      const date = new Date();
+      name = '画板 ' + date.toLocaleString();
+    }
+    const id = generateId(10);
+    return await createProject(id, name);
+  },
+
+  async loadProject(projectId) {
+    try {
+      clearRendererCache();
+      const projectData = await projectModule.loadProject(projectId);
+      window.currentProjectId = projectId;
+      
+      if (projectGallery) {
+        projectGallery.classList.remove('hidden');
+      }
+      
+      document.body.classList.remove('in-gallery');
+      localStorage.setItem('tapnow_last_project_v2', projectId);
+      
+      try {
+        if (window.TigerTabManager?.init) {
+          window.TigerTabManager.init(projectData);
+        } else {
+          console.warn('TigerTabManager or init method not available, using fallback hydration');
+          if (projectData.canvases && projectData.canvases.length > 0) {
+            const activeCanvas = projectData.canvases.find(c => c.id === projectData.activeCanvasId) || projectData.canvases[0];
+            if (activeCanvas && window.store) {
+              window.store.hydrate(activeCanvas);
+            }
+          } else if (window.store) {
+            window.store.hydrate({});
+          }
+        }
+      } catch (tabError) {
+        console.error('TigerTabManager.init failed, using fallback hydration:', tabError);
+        try {
+          if (projectData.canvases && projectData.canvases.length > 0) {
+            const activeCanvas = projectData.canvases.find(c => c.id === projectData.activeCanvasId) || projectData.canvases[0];
+            if (activeCanvas && window.store) {
+              window.store.hydrate(activeCanvas);
+            }
+          } else if (window.store) {
+            window.store.hydrate({});
+          }
+        } catch (hydrateError) {
+          console.error('Fallback hydration also failed:', hydrateError);
+        }
+      }
+      
+      const projectNameText = document.getElementById('projectNameText');
+      if (projectNameText) {
+        const projects = await this.getProjects();
+        const project = projects.find(p => p.id === projectId);
+        const projectName = project?.name || '未命名项目';
+        projectNameText.textContent = projectName;
+      }
+    } catch (error) {
+      console.error('Failed to load project:', error);
+      alert('读取项目失败');
+    }
+  },
+
+  async saveCurrentProject() {
+    if (!window.currentProjectId) {
+      return;
+    }
+    
+    if (window.TigerTabManager) {
+      window.TigerTabManager._flushCurrentCanvas?.();
+      const multiData = window.TigerTabManager.getMultiData?.();
+      if (multiData) {
+        await projectModule.saveProject(window.currentProjectId, multiData);
+      }
+    }
+  },
+
+  showConfirm(title, message, onConfirm) {
+    const overlay = document.createElement('div');
+    overlay.className = 'custom-confirm-overlay';
+    
+    const confirmBox = document.createElement('div');
+    confirmBox.className = 'custom-confirm-box';
+    Object.assign(confirmBox.style, {
+      background: 'var(--surface-quote)',
+      color: 'var(--text-primary)',
+      padding: '20px',
+      borderRadius: '8px',
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      zIndex: '9999',
+      border: '1px solid var(--white-10)'
+    });
+    
+    const titleElement = document.createElement('div');
+    titleElement.className = 'confirm-title';
+    Object.assign(titleElement.style, {
+      fontSize: '18px',
+      fontWeight: 'bold',
+      marginBottom: '10px'
+    });
+    titleElement.textContent = title;
+    
+    const messageElement = document.createElement('div');
+    messageElement.className = 'confirm-msg';
+    Object.assign(messageElement.style, {
+      marginBottom: '20px',
+      color: 'var(--text-muted)'
+    });
+    messageElement.textContent = message;
+    
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.className = 'confirm-btns';
+    Object.assign(buttonsContainer.style, {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      gap: '10px'
+    });
+    
+    const cancelButton = document.createElement('button');
+    cancelButton.type = 'button';
+    cancelButton.className = 'confirm-btn confirm-cancel';
+    Object.assign(cancelButton.style, {
+      padding: '6px 12px',
+      borderRadius: '4px',
+      border: 'none',
+      background: 'var(--bg)',
+      color: 'white',
+      cursor: 'pointer'
+    });
+    cancelButton.textContent = '取消';
+    
+    const confirmButton = document.createElement('button');
+    confirmButton.type = 'button';
+    confirmButton.className = 'confirm-btn confirm-ok';
+    Object.assign(confirmButton.style, {
+      padding: '6px 12px',
+      borderRadius: '4px',
+      border: 'none',
+      background: 'var(--red)',
+      color: 'var(--text-primary)',
+      cursor: 'pointer'
+    });
+    confirmButton.textContent = '确认删除';
+    
+    buttonsContainer.appendChild(cancelButton);
+    buttonsContainer.appendChild(confirmButton);
+    confirmBox.appendChild(titleElement);
+    confirmBox.appendChild(messageElement);
+    confirmBox.appendChild(buttonsContainer);
+    overlay.appendChild(confirmBox);
+    document.body.appendChild(overlay);
+    
+    const closeConfirm = () => overlay.remove();
+    
+    cancelButton.onclick = closeConfirm;
+    confirmButton.onclick = () => {
+      onConfirm();
+      closeConfirm();
+    };
+    
+    overlay.onclick = (event) => {
+      if (event.target === overlay) {
+        closeConfirm();
+      }
+    };
+  },
+
+  async deleteProject(projectId) {
+    this.showConfirm('确认删除', '删除后项目将无法恢复，确定要继续吗？', async () => {
+      try {
+        await deleteProject(projectId);
+        if (window.currentProjectId === projectId) {
+          this.showGallery();
+        } else {
+          this.renderGallery();
+        }
+      } catch (error) {
+        console.error('Failed to delete project:', error);
+      }
+    });
+  },
+
+  showGallery() {
+    window.currentProjectId = null;
+    if (projectGallery) {
+      projectGallery.classList.remove('hidden');
+    }
+    document.body.classList.add('in-gallery');
+    this.renderGallery();
+  },
+
+  async renderGallery() {
+    if (!projectGrid) {
+      return;
+    }
+    
+    const projects = await this.getProjects();
+    projectGrid.replaceChildren();
+    
+    const newProjectCard = document.createElement('div');
+    newProjectCard.className = 'project-card new-project-card';
+    
+    const svgNamespace = 'http://www.w3.org/2000/svg';
+    const newProjectPreview = document.createElement('div');
+    newProjectPreview.className = 'pc-preview new-project-preview';
+    Object.assign(newProjectPreview.style, {
+      background: 'var(--white-02)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    });
+    
+    const plusIcon = document.createElementNS(svgNamespace, 'svg');
+    plusIcon.setAttribute('width', '32');
+    plusIcon.setAttribute('height', '32');
+    plusIcon.setAttribute('viewBox', '0 0 24 24');
+    plusIcon.setAttribute('stroke', 'none');
+    plusIcon.setAttribute('stroke-width', '2');
+    plusIcon.setAttribute('stroke-linecap', 'round');
+    plusIcon.setAttribute('stroke-linejoin', 'round');
+    plusIcon.style.color = 'currentColor';
+    
+    const line1 = document.createElementNS(svgNamespace, 'line');
+    line1.setAttribute('x1', '12');
+    line1.setAttribute('y1', '5');
+    line1.setAttribute('x2', '12');
+    line1.setAttribute('y2', '19');
+    
+    const line2 = document.createElementNS(svgNamespace, 'line');
+    line2.setAttribute('x1', '5');
+    line2.setAttribute('y1', '12');
+    line2.setAttribute('x2', '19');
+    line2.setAttribute('y2', '12');
+    
+    plusIcon.appendChild(line1);
+    plusIcon.appendChild(line2);
+    newProjectPreview.appendChild(plusIcon);
+    
+    const newProjectInfo = document.createElement('div');
+    newProjectInfo.className = 'pc-info';
+    Object.assign(newProjectInfo.style, {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '60px',
+      padding: '16px 0'
+    });
+    
+    const newProjectTitle = document.createElement('div');
+    newProjectTitle.className = 'pc-title';
+    Object.assign(newProjectTitle.style, {
+      color: 'var(--text-primary)',
+      fontSize: '14px',
+      fontWeight: '600',
+      textAlign: 'center',
+      margin: '0'
+    });
+    newProjectTitle.textContent = '新建项目';
+    
+    newProjectInfo.appendChild(newProjectTitle);
+    newProjectCard.appendChild(newProjectPreview);
+    newProjectCard.appendChild(newProjectInfo);
+    
+    const styleElement = document.createElement('style');
+    styleElement.textContent = '@keyframes spin { 100% { transform: rotate(360deg); } } .spin { animation: spin 1s linear infinite; }';
+    document.head.appendChild(styleElement);
+    
+    window.showGlobalLoading = function(message = '加载中...') {
+      let loadingElement = document.getElementById('v2-global-loading');
+      if (!loadingElement) {
+        loadingElement = document.createElement('div');
+        loadingElement.id = 'v2-global-loading';
+        Object.assign(loadingElement.style, {
+          position: 'fixed',
+          bottom: '80px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: 'var(--bg)',
+          color: 'var(--text-primary)',
+          padding: '10px 24px',
+          borderRadius: '30px',
+          fontSize: '14px',
+          zIndex: '99999',
+          border: '1px solid var(--white-10)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          boxShadow: '0 8px 32px var(--black-50)',
+          opacity: '0',
+          transition: 'opacity 0.2s',
+          pointerEvents: 'none'
+        });
+        
+        const spinner = document.createElementNS(svgNamespace, 'svg');
+        spinner.setAttribute('width', '18');
+        spinner.setAttribute('height', '18');
+        spinner.setAttribute('viewBox', '0 0 24 24');
+        spinner.setAttribute('stroke', 'none');
+        spinner.setAttribute('stroke-width', '2');
+        spinner.classList.add('spin');
+        
+        const path = document.createElementNS(svgNamespace, 'path');
+        path.setAttribute('d', 'M21 12a9 9 0 1 1-6.219-8.56');
+        spinner.appendChild(path);
+        
+        const textElement = document.createElement('span');
+        loadingElement.appendChild(spinner);
+        loadingElement.appendChild(textElement);
+        document.body.appendChild(loadingElement);
+      }
+      
+      loadingElement.querySelector('span').textContent = message;
+      void loadingElement.offsetWidth;
+      loadingElement.style.opacity = '1';
+    };
+    
+    window.hideGlobalLoading = function() {
+      const loadingElement = document.getElementById('v2-global-loading');
+      if (loadingElement) {
+        loadingElement.style.opacity = '0';
+        setTimeout(() => loadingElement.remove(), 250);
+      }
+    };
+    
+    newProjectCard.onclick = async () => {
+      const projectId = await this.createProject();
+      if (projectId) {
+        if (window.store) {
+          window.store.hydrate({});
+        }
+        await this.loadProject(projectId);
+        commit();
+      }
+    };
+    
+    projectGrid.appendChild(newProjectCard);
+    
+    projects.sort((a, b) => b.lastModified - a.lastModified).forEach(project => {
+      const projectCard = document.createElement('div');
+      projectCard.className = 'project-card';
+      
+      const lastModified = new Date(project.lastModified).toLocaleString('zh-CN', {
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      
+      const previewElement = document.createElement('div');
+      previewElement.className = 'pc-preview';
+      
+      if (project.thumbnail && project.thumbnail.type === 'image' && project.thumbnail.data) {
+        const img = document.createElement('img');
+        img.src = project.thumbnail.data;
+        previewElement.appendChild(img);
+      } else if (project.thumbnail && project.thumbnail.type === 'text' && project.thumbnail.data) {
+        const textSnippet = document.createElement('div');
+        textSnippet.className = 'pc-text-snippet';
+        textSnippet.textContent = project.thumbnail.data;
+        previewElement.appendChild(textSnippet);
+      } else {
+        const defaultPreview = document.createElement('div');
+        defaultPreview.className = 'pc-logo';
+        Object.assign(defaultPreview.style, {
+          fontWeight: 'bold',
+          color: 'var(--red)',
+          fontSize: '20px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '60px'
+        });
+        defaultPreview.textContent = 'AITiger';
+        previewElement.appendChild(defaultPreview);
+      }
+      
+      const projectInfo = document.createElement('div');
+      projectInfo.className = 'pc-info';
+      
+      const projectName = document.createElement('div');
+      projectName.className = 'pc-title';
+      projectName.textContent = project.name;
+      
+      const projectMeta = document.createElement('div');
+      projectMeta.className = 'pc-meta';
+      
+      const timeElement = document.createElement('span');
+      timeElement.className = 'pc-time';
+      timeElement.textContent = lastModified;
+      
+      const deleteElement = document.createElement('span');
+      deleteElement.className = 'pc-delete';
+      deleteElement.dataset.id = project.id;
+      Object.assign(deleteElement.style, {
+        color: 'var(--text-muted)',
+        cursor: 'pointer',
+        transition: 'color 0.2s'
+      });
+      deleteElement.textContent = '删除';
+      
+      deleteElement.addEventListener('mouseenter', () => deleteElement.style.color = 'var(--red)');
+      deleteElement.addEventListener('mouseleave', () => deleteElement.style.color = 'var(--text-muted)');
+      
+      projectMeta.appendChild(timeElement);
+      projectMeta.appendChild(deleteElement);
+      projectInfo.appendChild(projectName);
+      projectInfo.appendChild(projectMeta);
+      projectCard.appendChild(previewElement);
+      projectCard.appendChild(projectInfo);
+      
+      projectCard.onclick = async (event) => {
+        const deleteButton = event.target.closest('.pc-delete');
+        if (deleteButton) {
+          event.stopPropagation();
+          await this.deleteProject(project.id);
+          return;
+        }
+        await this.loadProject(project.id);
+      };
+      
+      projectGrid.appendChild(projectCard);
+    });
+  }
+};
+
+export default ProjectManager;
+export { ProjectManager };

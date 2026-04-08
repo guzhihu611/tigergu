@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: ai-tiger
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    envVars:
+      - key: AITIGER_PORT
+        value: 10000
+      - key: SAM3_ENABLED
+        value: 0
+      - key: PYTHON_VERSION
+        value: 3.11.0

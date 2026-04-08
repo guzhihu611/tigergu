@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="images\favicon.svg" width="64" height="64" alt="AI Canvas Logo"/>
+<img src="images\favicon.svg" width="64" height="64" alt="AI Tiger Logo"/>
 
-# AI Canvas
+# AI Tiger
 
 **基于节点的 AI 多模态画布编辑器**
 
@@ -37,7 +37,7 @@
 ### 💾 项目管理
 
 - 多项目切换（左侧边栏项目面板）
-- `Ctrl+S` 保存画布到本地 `user/Canvas Project/` 目录
+- `Ctrl+S` 保存画布到本地 `user/Tiger Project/` 目录
 - 自动缓存画布状态，刷新页面即时恢复
 - 项目文件为标准 JSON 格式，方便迁移（类似comfyui操作，直接拖拽json文件到画布即可打开）
 
@@ -47,8 +47,8 @@
 
 1. **克隆仓库**
    ```bash
-   git clone https://github.com/ashuoAI/AI-CanvasPro.git
-   cd AI-CanvasPro
+   git clone https://github.com/ashuoAI/AI-TigerPro.git
+   cd AI-TigerPro
    ```
 
 2. **安装依赖并启动**
@@ -58,7 +58,7 @@
    # 激活虚拟环境
    venv\Scripts\activate.bat
    # 安装依赖
-   pip install -r requirements
+   pip install -r requirements
    # 启动服务
    python server.py
    ```
@@ -69,9 +69,9 @@
 ### 方法 2：一键整合包（推荐普通用户）
 
 1. **下载整合包**
-   [点击下载](https://github.com/ashuoAI/AI-CanvasPro/releases)
+   [点击下载](https://github.com/ashuoAI/AI-TigerPro/releases)
 2. **解压文件**
-   将下载的压缩包解压到不带中文的路径，例如 `D:\AI-CanvasPro`
+   将下载的压缩包解压到不带中文的路径，例如 `D:\AI-TigerPro`
 3. **一键启动**
    双击目录下的 **`双击运行.bat`** 文件，即可自动跳出项目画布。
    访问 [http://localhost:8777](http://localhost:8777) 即可使用。
@@ -79,7 +79,7 @@
 
 # 🖱️ 使用说明
 
-更完整的用户手册请直接看：[使用说明.md](file:///h:/AI/Al%20Canvas%E7%BC%96%E7%A8%8B/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md)
+更完整的用户手册请直接看：[使用说明.md](file:///h:/AI/AI%20Tiger%E7%BC%96%E7%A8%8B/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md)
 
 ## ⚙️ 配置 API Key
 
@@ -117,7 +117,7 @@
 2. 从输出锚点拖拽到目标节点的输入锚点
 3. 连线建立后，上游节点的结果会自动流向下游
 
-### 引用其他节点（@ 语法  / 预设 ）
+### 引用其他节点（@ 语法 / 预设 ）
 
 在 生成节点的提示词编辑框中，输入 `@` 即可弹出引用菜单，选择画布上任意节点，其输出结果将被动态嵌入提示词中。
 

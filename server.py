@@ -1,6 +1,6 @@
 r"""
 ╔══════════════════════════════════════════════════════════╗
-║  ./server.py  —  AI Canvas V2 独立服务器               ║
+║  ./server.py  —  AI Tiger V2 独立服务器                ║
 ╠══════════════════════════════════════════════════════════╣
 ║  启动方式：                                              ║
 ║    cd v2                                                 ║
@@ -8,7 +8,7 @@ r"""
 ║  浏览器访问：http://localhost:8777                        ║
 ╠══════════════════════════════════════════════════════════╣
 ║  目录结构（均在 v2/ 内）：                               ║
-║    user/Canvas Project/  — 画布项目文件                  ║
+║    user/Tiger Project/  — 画布项目文件                  ║
 ║    user/shortcuts.json   — 快捷键设置                    ║
 ║    user/settings.json    — 主题等设置                    ║
 ║    user/config.json      — API Key 配置                  ║
@@ -40,7 +40,7 @@ mimetypes.add_type("text/javascript; charset=utf-8", ".js")
 mimetypes.add_type("text/javascript; charset=utf-8", ".mjs")
 mimetypes.add_type("text/css; charset=utf-8", ".css")
 
-PORT      = int(os.environ.get("AICANVAS_PORT", "8777"))
+PORT      = int(os.environ.get("AITIGER_PORT", os.environ.get("AICANVAS_PORT", "8777")))
 DIRECTORY = os.path.abspath(os.path.dirname(__file__))   # v2/ 绝对路径
 # ── 自动更新 ─────────────────────────────────────────────
 # 从 index.html 读取版本号
@@ -61,16 +61,13 @@ def get_version_from_index_html():
     return "V0.0.7"  # 默认版本号
 
 LOCAL_VERSION   = get_version_from_index_html()  # 从 index.html 读取版本号
-UPDATE_INTERVAL = 30 * 60          # 检查间隔（秒），默认 30 分钟
-_update_info    = None              # None=无更新；dict=有更新信息
-_update_lock    = threading.Lock()
 _gen_seq_lock   = threading.Lock()
 _smart_clip_jobs = {}
 _smart_clip_lock = threading.Lock()
 
 # ── 数据目录（全部在 v2/ 内）────────────────────────────
 USER_DIR       = os.path.join(DIRECTORY, "user")
-CANVAS_DIR     = os.path.join(USER_DIR,  "Canvas Project")
+TIGER_DIR      = os.path.join(USER_DIR,  "Tiger Project")
 ASSETS_DIR     = os.path.join(DIRECTORY, "data", "assets")
 ASSET_THUMBS_DIR = os.path.join(ASSETS_DIR, "thumbs")
 UPLOADS_DIR    = os.path.join(DIRECTORY, "data", "uploads")
@@ -79,7 +76,7 @@ CONFIG_FILE    = os.path.join(USER_DIR, "config.json")
 GEN_SEQ_STATE_FILE = os.path.join(OUTPUT_DIR, ".gen_seq_state.json")
 
 # 确保目录存在
-os.makedirs(CANVAS_DIR,  exist_ok=True)
+os.makedirs(TIGER_DIR,  exist_ok=True)
 os.makedirs(ASSETS_DIR,  exist_ok=True)
 os.makedirs(ASSET_THUMBS_DIR, exist_ok=True)
 os.makedirs(UPLOADS_DIR, exist_ok=True)
@@ -552,104 +549,6 @@ def _get_custom_ai_config():
     return {"apiUrl": final_url, "apiKey": final_key, "source": source}
 
 
-# ── 自动更新：后台线程 ──────────────────────────────────
-def _parse_remote_info():
-    """从 git remote origin URL 解析出 platform/owner/repo/branch
-    支持 GitHub / Gitee / 通用 HTTPS 和 SSH 格式
-    """
-    try:
-        raw = subprocess.check_output(
-            ['git', 'remote', 'get-url', 'origin'],
-            cwd=DIRECTORY, stderr=subprocess.DEVNULL
-        ).decode().strip()
-        # 解析 owner/repo
-        if raw.startswith('https://'):
-            parts = raw.rstrip('/').split('/')
-            if parts[-1].endswith('.git'):
-                parts[-1] = parts[-1][:-4]
-            owner, repo = parts[-2], parts[-1]
-            host = parts[2]  # e.g. github.com or gitee.com
-        else:
-            # SSH: git@github.com:owner/repo.git  或 git@gitee.com:owner/repo.git
-            host = raw.split('@')[-1].split(':')[0]
-            path_part = raw.split(':')[-1]
-            if path_part.endswith('.git'):
-                path_part = path_part[:-4]
-            owner, repo = path_part.split('/')
-        branch = subprocess.check_output(
-            ['git', 'rev-parse', '--abbrev-ref', 'HEAD'],
-            cwd=DIRECTORY, stderr=subprocess.DEVNULL
-        ).decode().strip() or 'master'
-        # 识别平台
-        if 'gitee.com' in host:
-            platform = 'gitee'
-        elif 'github.com' in host:
-            platform = 'github'
-        else:
-            platform = 'unknown'
-        return platform, owner, repo, branch, host
-    except Exception:
-        return None, None, None, 'master', None
-def _do_update_check():
-    """对比本地与远端最新 commit hash；发现更新写入 _update_info，由用户手动触发更新。支持 GitHub 和 Gitee"""
-    global _update_info
-    
-    # 如果存在 .dev 标记文件，说明是本地开发环境，跳过更新检查
-    if os.path.exists(os.path.join(DIRECTORY, ".dev")):
-        return
-
-    try:
-        local_hash = subprocess.check_output(
-            ['git', 'rev-parse', 'HEAD'],
-            cwd=DIRECTORY, stderr=subprocess.DEVNULL
-        ).decode().strip()
-        
-        # 硬编码仓库 B 的信息，不再动态读取本地的 git remote
-        platform = 'github'
-        owner = 'ashuoAI'
-        repo = 'AI-CanvasPro'
-        branch = 'master'  # 假设发布仓库的主分支是 master，如果是 main 请自行修改
-        
-        if platform == 'gitee':
-            api_url = f"https://gitee.com/api/v5/repos/{owner}/{repo}/commits?sha={branch}&limit=1"
-            headers = {'User-Agent': 'TapNow-AutoUpdate/1.0'}
-            download_url = f"https://gitee.com/{owner}/{repo}"
-            def get_sha(data): return data[0].get('sha', '') if isinstance(data, list) and data else ''
-            def get_msg(data): return (data[0].get('commit', {}).get('message', '') if isinstance(data, list) and data else '').split('\n')[0][:80]
-        elif platform == 'github':
-            api_url = f"https://api.github.com/repos/{owner}/{repo}/commits/{branch}"
-            headers = {'User-Agent': 'TapNow-AutoUpdate/1.0', 'Accept': 'application/vnd.github.v3+json'}
-            download_url = f"https://github.com/{owner}/{repo}/releases/latest"
-            def get_sha(data): return data.get('sha', '')
-            def get_msg(data): return data.get('commit', {}).get('message', '').split('\n')[0][:80]
-        else:
-            # print(f"[AutoUpdate] 不支持的平台: {host}")
-            return
-        # print(f"[AutoUpdate] 检查中 ({platform}) {owner}/{repo}@{branch}")
-        req = urllib.request.Request(api_url, headers=headers)
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            data = json.loads(resp.read().decode())
-        remote_sha = get_sha(data)
-        if not remote_sha or remote_sha == local_hash:
-            with _update_lock:
-                _update_info = None
-            return
-        commit_msg = get_msg(data)
-        with _update_lock:
-            _update_info = {
-                'hasUpdate': True,
-                'localHash': local_hash[:7], 'remoteHash': remote_sha[:7],
-                'message': commit_msg, 'downloadUrl': download_url
-            }
-    except Exception as e:
-        # print(f"[AutoUpdate] 检查失败: {e}")
-        pass
-def _update_check_loop():
-    """后台守护线程：启动后先等 10s 再首检，之后每 UPDATE_INTERVAL 检查一次"""
-    time.sleep(10)
-    while True:
-        _do_update_check()
-        time.sleep(UPDATE_INTERVAL)
 # ── 辅助函数 ─────────────────────────────────────────────
 def _json_ok(handler, data):
     body = json.dumps(data, ensure_ascii=False, indent=2).encode()
@@ -1372,7 +1271,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if path.startswith("/api/v2/projects/"):
             fn = unquote(path[len("/api/v2/projects/"):])
             if fn and ".." not in fn and fn.endswith(".json"):
-                fp = os.path.join(CANVAS_DIR, fn)
+                fp = os.path.join(TIGER_DIR, fn)
                 if os.path.exists(fp):
                     os.remove(fp)
                     _json_ok(self, {"success": True})
@@ -1402,7 +1301,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if path.startswith("/api/v2/projects/"):
             fn = unquote(path[len("/api/v2/projects/"):])
             if fn and ".." not in fn and fn.endswith(".json"):
-                fp = os.path.join(CANVAS_DIR, fn)
+                fp = os.path.join(TIGER_DIR, fn)
                 if not os.path.exists(fp):
                     _json_err(self, 404, "Project not found"); return
                 body = _read_body(self)
@@ -1415,7 +1314,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     _json_err(self, 400, "Name required"); return
                 safe = re.sub(r'[\\/:*?"<>|]', "_", new_name)
                 new_fn = safe + ".json"
-                new_fp = os.path.join(CANVAS_DIR, new_fn)
+                new_fp = os.path.join(TIGER_DIR, new_fn)
                 os.rename(fp, new_fp)
                 _json_ok(self, {"success": True, "filename": new_fn})
                 return
@@ -1500,16 +1399,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     _json_err(self, 500, f"Urllib polling error: {str(e)}")
             except Exception as e:
                 _json_err(self, 500, f"Task proxy global error: {repr(e)}")
-            return
-
-        # ── 自动更新：检查接口 ──
-        if path == "/api/v2/update/check":
-            with _update_lock:
-                info = _update_info
-            if info:
-                _json_ok(self, info)
-            else:
-                _json_ok(self, {'hasUpdate': False, 'localVersion': LOCAL_VERSION})
             return
 
         if path == "/api/v2/video/smart_clip/status":
@@ -1644,10 +1533,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         # ── 列出画布项目 ──
         if path == "/api/v2/projects":
             files = []
-            for fn in os.listdir(CANVAS_DIR):
+            for fn in os.listdir(TIGER_DIR):
                 if not fn.endswith(".json"):
                     continue
-                fp = os.path.join(CANVAS_DIR, fn)
+                fp = os.path.join(TIGER_DIR, fn)
                 files.append({
                     "filename": fn,
                     "name":     fn[:-5],
@@ -1661,7 +1550,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if path.startswith("/api/v2/projects/") and not path.endswith("/save"):
             fn = unquote(path[len("/api/v2/projects/"):])
             if fn and ".." not in fn:
-                fp = os.path.join(CANVAS_DIR, fn)
+                fp = os.path.join(TIGER_DIR, fn)
                 if os.path.exists(fp):
                     with open(fp, "r", encoding="utf-8-sig") as f:
                         _json_ok(self, json.load(f))
@@ -1775,7 +1664,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             # 文件名安全化：只保留中文、字母、数字、空格、横杠
             safe = re.sub(r'[\\/:*?"<>|]', "_", name)
             fname = safe + ".json"
-            fpath = os.path.join(CANVAS_DIR, fname)
+            fpath = os.path.join(TIGER_DIR, fname)
 
             # 兼容 V1 和 V2 格式：V2 会传来 canvases 和 activeCanvasId，V1 原生传来 nodes 和 edges
             payload = {}
@@ -3456,7 +3345,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return
 
         # ── PPIO 图像生成代理 ──
-        if path == "/api/v2/proxy/image":
+        if path == "/api/v2/proxy/image" or path == "/api/v2/proxy/video":
             body = _read_body(self)
             try:
                 data = json.loads(body)
@@ -3674,70 +3563,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 _json_err(self, 500, str(e))
             return
 
-        # ── 自动更新：git pull 后启动 双击运行.bat 并退出当前进程 ──
-        if path == "/api/v2/update/apply":
-            try:
-                # ZIP 包内的 .git 由 CI 生成；远端可能被 --force 推送导致历史重写
-                # 这里不使用 git pull（merge），而是采用 fetch + reset 硬对齐远端版本，避免冲突/无追踪分支等问题
-                remotes = []
-                try:
-                    remotes = subprocess.check_output(
-                        ['git', 'remote'],
-                        cwd=DIRECTORY, stderr=subprocess.DEVNULL
-                    ).decode().split()
-                except Exception:
-                    remotes = []
-                remote = None
-                for name in ("origin", "github", "gitee"):
-                    if name in remotes:
-                        remote = name
-                        break
-                if not remote and remotes:
-                    remote = remotes[0]
-                if not remote:
-                    _json_ok(self, {'success': False, 'error': '未检测到可用的 git remote（可能不是通过 Git 获取的目录）'})
-                    return
-
-                fetch = subprocess.run(
-                    ['git', 'fetch', remote, 'master'],
-                    cwd=DIRECTORY,
-                    capture_output=True, text=True, timeout=60
-                )
-                if fetch.returncode != 0:
-                    err = fetch.stderr.strip() or fetch.stdout.strip()
-                    _json_ok(self, {'success': False, 'error': err})
-                    return
-                reset = subprocess.run(
-                    ['git', 'reset', '--hard', 'FETCH_HEAD'],
-                    cwd=DIRECTORY,
-                    capture_output=True, text=True, timeout=60
-                )
-                if reset.returncode == 0:
-                    _json_ok(self, {'success': True})
-                    def _restart():
-                        import time, os
-                        time.sleep(0.8)
-                        bat = os.path.join(DIRECTORY, '双击运行.bat')
-                        os.startfile(bat)
-                        time.sleep(0.3)
-                        os._exit(0)
-                    threading.Thread(target=_restart, daemon=True).start()
-                else:
-                    err = reset.stderr.strip() or reset.stdout.strip()
-                    _json_ok(self, {'success': False, 'error': err})
-            except subprocess.TimeoutExpired:
-                _json_err(self, 504, 'git pull 超时，请检查网络')
-            except Exception as e:
-                _json_err(self, 500, str(e))
-            return
         _json_err(self, 404, "Not found")
 
 
 # ── 启动 ─────────────────────────────────────────────────
 if __name__ == "__main__":
-    # 启动自动更新后台检查线程
-    _t = threading.Thread(target=_update_check_loop, daemon=True, name='AutoUpdateChecker')
-    _t.start()
     if _sam3_enabled():
         def _sam3_warmup():
             try:
@@ -3805,7 +3635,7 @@ if __name__ == "__main__":
     with socketserver.ThreadingTCPServer(("", port), Handler) as httpd:
         httpd.allow_reuse_address = True
         print(f"╔══════════════════════════════════════╗")
-        print(f"║  AI Canvas 服务器已启动              ║")
+        print(f"║  AI Tiger 服务器已启动              ║")
         print(f"║  http://localhost:{port}              ║")
         print(f"║  按 Ctrl+C 停止服务器                ║")
         print(f"╚══════════════════════════════════════╝")
