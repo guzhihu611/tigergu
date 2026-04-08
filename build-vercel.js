@@ -6,11 +6,12 @@ const EXCLUDE = [
   '.git', '.vscode', 'venv', '__pycache__', 'node_modules',
   'dist', 'models', 'user', 'data', 'output', 'tools',
   'Dockerfile', '.dockerignore', 'railway.json', 'render.yaml',
-  'build-vercel.js', 'vercel-api', '双击运行.bat'
+  'build-vercel.js', 'vercel-api', '双击运行.bat',
+  'server.py', 'requirements.txt'
 ];
 
 function shouldExclude(name) {
-  return EXCLUDE.includes(name) || name.endsWith('.pyc');
+  return EXCLUDE.includes(name) || name.endsWith('.pyc') || name.endsWith('.py');
 }
 
 function copyDir(src, dest) {
