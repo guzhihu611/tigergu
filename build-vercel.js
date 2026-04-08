@@ -1,34 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-const DIST = 'dist';
-const EXCLUDE = [
-  '.git', '.vscode', 'venv', '__pycache__', 'node_modules',
-  'dist', 'models', 'user', 'data', 'output', 'tools',
-  'Dockerfile', '.dockerignore', 'railway.json', 'render.yaml',
-  'build-vercel.js', 'vercel-api', '双击运行.bat',
-  'server.py', 'requirements.txt'
-];
-
-function shouldExclude(name) {
-  return EXCLUDE.includes(name) || name.endsWith('.pyc') || name.endsWith('.py');
-}
-
-function copyDir(src, dest) {
-  if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
-  for (const entry of fs.readdirSync(src)) {
-    if (shouldExclude(entry)) continue;
-    const srcPath = path.join(src, entry);
-    const destPath = path.join(dest, entry);
-    const stat = fs.statSync(srcPath);
-    if (stat.isDirectory()) {
-      copyDir(srcPath, destPath);
-    } else {
-      fs.copyFileSync(srcPath, destPath);
-    }
-  }
-}
-
 function replaceInDir(dir, replacements, extensions) {
   if (!fs.existsSync(dir)) return;
   for (const entry of fs.readdirSync(dir)) {
@@ -50,17 +22,26 @@ function replaceInDir(dir, replacements, extensions) {
   }
 }
 
-console.log('Building for Vercel...');
+function rmDir(dir) {
+  if (!fs.existsSync(dir)) return;
+  for (const entry of fs.readdirSync(dir)) {
+    const fullPath = path.join(dir, entry);
+    fs.statSync(fullPath).isDirectory() ? rmDir(fullPath) : fs.unlinkSync(fullPath);
+  }
+  fs.rmdirSync(dir);
+}
 
-if (fs.existsSync(DIST)) fs.rmSync(DIST, { recursive: true });
-fs.mkdirSync(DIST);
+function rmFile(file) {
+  if (fs.existsSync(file)) fs.unlinkSync(file);
+}
 
-copyDir('.', DIST);
+console.log('Building for Vercel (in-place)...');
 
-const apiDir = path.join(DIST, 'api');
-const apicDir = path.join(DIST, 'apic');
-if (fs.existsSync(apiDir)) {
-  fs.renameSync(apiDir, apicDir);
+rmFile('server.py');
+rmFile('requirements.txt');
+
+if (fs.existsSync('api')) {
+  fs.renameSync('api', 'apic');
 }
 
 const replacements = [
@@ -69,13 +50,36 @@ const replacements = [
   ["from './api/", "from './apic/"],
   ['from "./api/', 'from "./apic/'],
 ];
-replaceInDir(DIST, replacements, ['.js', '.html', '.mjs']);
+replaceInDir('.', replacements, ['.js', '.html', '.mjs']);
 
-fs.mkdirSync(path.join(DIST, 'api'), { recursive: true });
+fs.mkdirSync('api', { recursive: true });
+fs.mkdirSync('api/v2/proxy', { recursive: true });
 
-const vercelApiDir = path.join('.', 'vercel-api');
-if (fs.existsSync(vercelApiDir)) {
-  copyDir(vercelApiDir, path.join(DIST, 'api'));
+function copyDir(src, dest) {
+  if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+  for (const entry of fs.readdirSync(src)) {
+    const srcPath = path.join(src, entry);
+    const destPath = path.join(dest, entry);
+    const stat = fs.statSync(srcPath);
+    if (stat.isDirectory()) {
+      copyDir(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
 }
+
+if (fs.existsSync('vercel-api')) {
+  copyDir('vercel-api', 'api');
+}
+
+rmDir('vercel-api');
+rmDir('models');
+rmDir('tools');
+rmFile('Dockerfile');
+rmFile('.dockerignore');
+rmFile('railway.json');
+rmFile('render.yaml');
+rmFile('build-vercel.js');
 
 console.log('Vercel build complete!');

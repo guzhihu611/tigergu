@@ -1,6 +1,5 @@
 {
   "buildCommand": "node build-vercel.js",
-  "outputDirectory": "dist",
   "installCommand": "echo skip",
   "framework": null
 }
