@@ -11,7 +11,6 @@ Dockerfile
 railway.json
 render.yaml
 vercel-api/
-build-vercel.js
 双击运行.bat
 user/
 data/

@@ -106,6 +106,6 @@ export default async function handler(req, res) {
 }
 `);
 
-rmDir('vercel-api');
+if (fs.existsSync('vercel-api')) rmDir('vercel-api');
 
 console.log('Vercel build complete!');
