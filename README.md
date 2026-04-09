@@ -120,8 +120,3 @@
 输入 `/` 引用预设命令，快速调用内置预设（后续支持自定义预设）
 
 ***
-
-- 📺 Bilibili：[space.bilibili.com/1876480181](https://space.bilibili.com/1876480181)
-
-***
-
